@@ -8,13 +8,13 @@ namespace Shop.UI
     {
           public static IServiceCollection AddApplicationServices(this IServiceCollection services)
           {
-              services.AddTransient<Application.ProductsAdmin.GetProduct,Application.ProductsAdmin.GetProduct>();
-              services.AddTransient<Application.ProductsAdmin.GetProduct,Application.ProductsAdmin.GetProduct>();
-              services.AddTransient<Application.Products.GetProducts,Application.Products.GetProducts>();
-              services.AddTransient<Application.Products.GetProducts,Application.Products.GetProducts>();
-              services.AddTransient<CreateProduct,CreateProduct>();
-              services.AddTransient<DeleteProduct,DeleteProduct>();
-              services.AddTransient<UpdateProduct,UpdateProduct>();
+              services.AddScoped<Application.ProductsAdmin.GetProduct,Application.ProductsAdmin.GetProduct>();
+              services.AddScoped<Application.ProductsAdmin.GetProducts,Application.ProductsAdmin.GetProducts>();
+              services.AddScoped<Application.Products.GetProducts,Application.Products.GetProducts>();
+              services.AddScoped<Application.Products.GetProducts,Application.Products.GetProducts>();
+              services.AddScoped<CreateProduct,CreateProduct>();
+              services.AddScoped<UpdateProduct,UpdateProduct>();
+              services.AddScoped<DeleteProduct,DeleteProduct>();
 
               return services;
           }

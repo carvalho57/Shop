@@ -1,12 +1,50 @@
 ﻿@page
 @model IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
 
-<div id="app">
-    <input type="number" v-model="price">
-    <p>{{price}}</p>
+<div id="app">    
+    <div>
+        <p v-for="(product,index) in products">
+            {{product.id}} - {{product.name}} - {{product.value}}
+            <a @@click="editProduct(product.id,index)" >Edit</a>
+            <a @@click="deleteProduct(product.id,index)" >Remove</a>
+        </p>
+    </div>
+
+    <div class="column is-6">
+        <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+                <input v-model="productModel.name" class="input" type="text" placeholder="Name">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Description</label>
+            <div class="control">
+                <input v-model="productModel.description" class="input" type="text" placeholder="Description">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Value</label>
+            <div class="control">
+                <input v-model="productModel.value" class="input" type="number">
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div v-if="!productModel.id"class="control">
+                <button @@click="createProduct" class="button is-link">Create Product</button>
+            </div>
+            <div v-else class="control">
+                <button @@click="updateProduct" class="button is-link">Update Product</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-@section scripts  {
+@section scripts {
     <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="~/js/admin/main.js"></script>
 }

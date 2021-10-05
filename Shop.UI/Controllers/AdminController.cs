@@ -8,7 +8,8 @@ namespace Shop.UI.Controllers
 {
     //https://restfulapi.net/resource-naming/
     [Route("[controller]")]
-    public class AdminController : Controller {
+    [ApiController]
+    public class AdminController : ControllerBase {
         private readonly ApplicationDbContext _context;
 
         public AdminController(ApplicationDbContext context)
@@ -18,8 +19,10 @@ namespace Shop.UI.Controllers
 
     
         [HttpGet("products")]
-        public IActionResult GetProducts([FromServices] GetProducts getProducts) =>
-            Ok(getProducts.Do());
+        public IActionResult GetProducts([FromServices] GetProducts getProducts){
+            return Ok(getProducts.Do());   
+        }
+            
 
         [HttpGet("products/{id}")]
         public IActionResult GetProduct(
