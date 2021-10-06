@@ -4,47 +4,60 @@
     ViewData["Title"] = "Index";
 }
 
-<div id="app">    
-    <div>
-        <p v-for="(product,index) in products">
-            {{product.id}} - {{product.name}} - {{product.value}}
-            <a @@click="editProduct(product.id,index)" >Edit</a>
-            <a @@click="deleteProduct(product.id,index)" >Remove</a>
-        </p>
-    </div>
-
-    <div class="column is-6">
-        <div class="field">
-            <label class="label">Name</label>
-            <div class="control">
-                <input v-model="productModel.name" class="input" type="text" placeholder="Name">
+<div id="app" class="container">            
+            <div v-if="!editing">
+                <button class="button" @@click="newProduct" >Add New Product</button>
+                <table class="table">
+                    <tr>
+                        <th>Id</th>
+                        <th>Product</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr v-for="(product,index) in products">
+                        <td>{{product.id}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.value}}</td>
+                        <td><a @@click="editProduct(product.id,index)">Edit</a></td>
+                        <td><a @@click="deleteProduct(product.id,index)">Remove</a></td>
+                    </tr>
+                </table>
             </div>
-        </div>
-        <div class="field">
-            <label class="label">Description</label>
-            <div class="control">
-                <input v-model="productModel.description" class="input" type="text" placeholder="Description">
+            <div v-else>
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input v-model="productModel.name" class="input" type="text" placeholder="Name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                        <input v-model="productModel.description" class="input" type="text" placeholder="Description">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Value</label>
+                    <div class="control">
+                        <input v-model="productModel.value" class="input" type="number">
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button @@click="cancel" class="button">Cancel</button>
+                    </div>
+                    <div v-if="!productModel.id" class="control">
+                        <button @@click="createProduct" class="button is-success">Create Product</button>
+                    </div>
+                    <div v-else class="control">
+                        <button @@click="updateProduct" class="button is-warning">Update Product</button>
+                    </div>                    
+                </div>
             </div>
-        </div>
-        <div class="field">
-            <label class="label">Value</label>
-            <div class="control">
-                <input v-model="productModel.value" class="input" type="number">
-            </div>
-        </div>
-        <div class="field is-grouped">
-            <div v-if="!productModel.id"class="control">
-                <button @@click="createProduct" class="button is-link">Create Product</button>
-            </div>
-            <div v-else class="control">
-                <button @@click="updateProduct" class="button is-link">Update Product</button>
-            </div>
-        </div>
-    </div>
+        </div>    
 </div>
 
 @section scripts {
     <script src="https://unpkg.com/vue@next"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="~/js/admin/main.js"></script>
+    <script src="~/js/admin/products.js"></script>
 }

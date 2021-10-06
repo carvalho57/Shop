@@ -1,14 +1,15 @@
 ﻿
 const Component = {
   data() {
-    return {    
+    return {
+      editing: false,
       loading: false,
       index: 0,
       productModel: {
         id: 0,
         name: "Product Name",
         description: "Product Description",
-        value: 0        
+        value: 0
       },
       products: []
     }
@@ -20,7 +21,7 @@ const Component = {
     getProduct(id) {
       this.loading = true;
       axios.get('/Admin/products/' + id)
-        .then(res =>{
+        .then(res => {
           console.log(res);
           var product = res.data;
           this.productModel = {
@@ -40,7 +41,7 @@ const Component = {
     getProducts() {
       this.loading = true;
       axios.get('/Admin/products')
-        .then(res =>{
+        .then(res => {
           console.log(res);
           this.products = res.data;
         })
@@ -63,32 +64,39 @@ const Component = {
         })
         .then(() => {
           this.loading = false;
+          this.editing = false;
         })
     },
-    editProduct(id, index) {      
+    editProduct(id, index) {
       this.index = index;
       this.getProduct(id);
+      this.editing = true;
+    },
+    newProduct() {
+      this.editing =true;
+      this.productModel.id = 0;
     },
     updateProduct() {
       this.loading = true;
       axios.put('/Admin/products', this.productModel)
         .then(res => {
           console.log(res);
-          this.products.splice(this.index,1, res.data);        
+          this.products.splice(this.index, 1, res.data);
         })
         .catch(err => {
           console.log(err);
         })
         .then(() => {
           this.loading = false;
+          this.editing = false;
         })
-    },  
+    },
     deleteProduct(id) {
       this.loading = true;
       axios.delete('/Admin/products/' + id)
         .then(res => {
           console.log(res);
-          this.products.splice(this.index,1);
+          this.products.splice(this.index, 1);
         })
         .catch(err => {
           console.log(err);
@@ -96,9 +104,12 @@ const Component = {
         .then(() => {
           this.loading = false;
         })
-    },  
+    },
+    cancel() {
+      this.editing = false;
+    }
   }
-  
+
 }
 
 Vue.createApp(Component).mount('#app')
