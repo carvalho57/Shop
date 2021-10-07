@@ -91,12 +91,12 @@ const Component = {
           this.editing = false;
         })
     },
-    deleteProduct(id) {
+    deleteProduct(id,index) {
       this.loading = true;
       axios.delete('/Admin/products/' + id)
         .then(res => {
           console.log(res);
-          this.products.splice(this.index, 1);
+          this.products.splice(index, 1);           
         })
         .catch(err => {
           console.log(err);
