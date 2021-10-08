@@ -17,10 +17,12 @@ namespace Shop.Application.Products
             _context = context;
         }
 
-        public async Task<ProductViewModel> Do(int id )
+        public ProductViewModel Do(string name)
         {
             
-            return await _context.Products.Where(x => x.Id == id).Select(x => new ProductViewModel()
+            return  _context.Products
+                .Where(x => x.Name == name)
+                .Select(x => new ProductViewModel()
                 {
                     Name = x.Name,
                     Description = x.Description,
@@ -30,9 +32,9 @@ namespace Shop.Application.Products
                     {
                         Id = y.Id,
                         Description = y.Description,
-                        Quantity = y.Quantity
+                        InStock = y.Quantity > 0
                     })
-                }).FirstOrDefaultAsync();
+                }).FirstOrDefault();
         }
 
         public class ProductViewModel
@@ -47,7 +49,7 @@ namespace Shop.Application.Products
         {
             public int Id { get; set; }
             public string Description { get; set; }
-            public int Quantity { get; set; }
+            public bool InStock { get; set; }
         }
     }
 }
